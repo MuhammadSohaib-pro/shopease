@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ProductCard from "../product/ProductCard";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 // import ProductSkeleton from "../product/ProductSkeleton";
 
 const FeaturedProducts = () => {

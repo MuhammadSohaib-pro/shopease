@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import heroBanner from "../../assets/img/hero-banner.jpg";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (

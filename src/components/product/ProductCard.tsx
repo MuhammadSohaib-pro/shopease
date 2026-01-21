@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Star, ShoppingBag } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 const ProductCard = () => {
   return (
@@ -20,7 +20,7 @@ const ProductCard = () => {
         <div className="bg-background rounded-b-md p-4">
           <span className="text-accent text-sm">Men's Clothing</span>
           <h3 className="text-primary py-2 group-hover:text-accent line-clamp-2">
-            View All Products View All Products View All Products
+            Mens Casual Premium Slim Fit T-Shirts
           </h3>
           <div className="flex items-center justify-between">
             <h4 className="text-primary text-2xl font-bold">$100.95</h4>

@@ -1,3 +1,4 @@
+import profile from "@/views/profile/profile";
 import Cart from "../views/cart/Cart";
 import Checkout from "../views/checkout/Checkout";
 import Home from "../views/home/Home";
@@ -32,8 +33,13 @@ const routes = [
     layout: "main",
   },
   {
-    path: "/order-succes",
+    path: "/order-success",
     component: OrderSuccess,
+    layout: "main",
+  },
+  {
+    path: "/profile",
+    component: profile,
     layout: "main",
   },
 ];

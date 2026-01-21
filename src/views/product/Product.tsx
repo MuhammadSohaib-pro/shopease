@@ -1,17 +1,17 @@
 import ProductCard from "../../components/product/ProductCard";
-import { Button } from "../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from "@/components/ui/select";
 import { SlidersHorizontal, Grid3X3, LayoutGrid, X } from "lucide-react";
 
 const Product = () => {
   return (
-    <div>
+    <>
       <div className="bg-muted py-12">
         <div className="container mx-auto px-4">
           <h1 className="text-primary text-4xl font-bold">All Products</h1>
@@ -100,7 +100,7 @@ const Product = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

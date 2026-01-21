@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, ShoppingBag, Menu, X, User, ChevronDown } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
