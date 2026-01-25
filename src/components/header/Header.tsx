@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, ShoppingBag, Menu, X, User, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/store";
+import { fetchCategories } from "@/store/products/ProductThunk";
+import { toggleCart } from "@/store/cart/CartSlice";
 
 const Header = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -9,10 +13,28 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (!query) {
-      console.log(query);
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories, categoriesLoader } = useSelector(
+    (state: RootState) => state.product,
+  );
+  const { items } = useSelector((state: RootState) => state.cart);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, []);
+
+  const formatCategory = (category: string) => {
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/products?search=${encodeURIComponent(query.trim())}`);
+      setQuery("");
+      setIsSearchOpen(false);
     }
   };
   return (
@@ -42,20 +64,19 @@ const Header = () => {
               <ChevronDown size={16} className="text-primary text-sm" />
             </Button>
 
-            {isCategoryOpen && (
+            {isCategoryOpen && !categoriesLoader && (
               <div className="bg-card border border-border rounded-sm mt-2 w-40 absolute flex flex-col items-start shadow-lg top-3">
-                <Link to="/" className="py-3 px-4 hover:bg-muted w-full">
-                  <span className="text-primary text-sm">All Products</span>
-                </Link>
-                <Link to="/" className="py-3 px-4 hover:bg-muted w-full">
-                  <span className="text-primary text-sm">All Products</span>
-                </Link>
-                <Link to="/" className="py-3 px-4 hover:bg-muted w-full">
-                  <span className="text-primary text-sm">All Products</span>
-                </Link>
-                <Link to="/" className="py-3 px-4 hover:bg-muted w-full">
-                  <span className="text-primary text-sm">All Products</span>
-                </Link>
+                {categories.map((category, index) => (
+                  <Link
+                    key={index}
+                    to={`/products?category=${encodeURIComponent(category)}`}
+                    className="py-3 px-4 hover:bg-muted w-full"
+                  >
+                    <span className="text-primary text-sm">
+                      {formatCategory(category)}
+                    </span>
+                  </Link>
+                ))}
               </div>
             )}
           </div>
@@ -104,12 +125,15 @@ const Header = () => {
           <Button
             size={"icon"}
             variant={"ghost"}
+            onClick={() => dispatch(toggleCart())}
             className="cursor-pointer p-3 rounded relative"
           >
             <ShoppingBag className="w-5 h-5" />
-            <div className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-accent-foreground rounded-full text-xs font-medium flex items-center justify-center">
-              2
-            </div>
+            {items.length > 0 && (
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-accent-foreground rounded-full text-xs font-medium flex items-center justify-center">
+                {items.length}
+              </div>
+            )}
           </Button>
           <Button
             size={"icon"}
@@ -151,37 +175,30 @@ const Header = () => {
       {isMenuOpen && (
         <div className="lg:hidden px-3 py-3">
           <div className="flex flex-col  justify-center gap-4">
-            <Link to="/">
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>
               <span className="text-primary text-sm hover:font-medium">
                 Home
               </span>
             </Link>
-            <Link to="/products">
+            <Link to="/products" onClick={() => setIsMenuOpen(false)}>
               <span className="text-primary text-sm hover:font-medium">
                 All Products
               </span>
             </Link>
             <span className="text-gray-400 text-sm">Categories</span>
-            <Link to="/" className="px-2">
-              <span className="text-primary text-sm hover:font-medium">
-                All Products
-              </span>
-            </Link>
-            <Link to="/" className="px-2">
-              <span className="text-primary text-sm hover:font-medium">
-                All Products
-              </span>
-            </Link>
-            <Link to="/" className="px-2">
-              <span className="text-primary text-sm hover:font-medium">
-                All Products
-              </span>
-            </Link>
-            <Link to="/" className="px-2">
-              <span className="text-primary text-sm hover:font-medium">
-                All Products
-              </span>
-            </Link>
+            {!categoriesLoader &&
+              categories.map((category, index) => (
+                <Link
+                  key={index}
+                  to={`/products?category=${encodeURIComponent(category)}`}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-2"
+                >
+                  <span className="text-primary text-sm hover:font-medium">
+                    {formatCategory(category)}
+                  </span>
+                </Link>
+              ))}
           </div>
         </div>
       )}

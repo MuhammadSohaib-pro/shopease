@@ -1,45 +1,51 @@
-import profile from "@/views/profile/profile";
-import Cart from "../views/cart/Cart";
-import Checkout from "../views/checkout/Checkout";
-import Home from "../views/home/Home";
-import OrderSuccess from "../views/order_success/OrderSuccess";
-import Product from "../views/product/Product";
-import ProductDetail from "../views/product_detail/ProductDetail";
+import ProfileView from "@/views/profile/Profile";
+import CartView from "../views/cart/Cart";
+import CheckoutView from "../views/checkout/Checkout";
+import HomeView from "../views/home/Home";
+import OrderSuccessView from "../views/order_success/OrderSuccess";
+import ProductView from "../views/product/Product";
+import ProductDetailView from "../views/product_detail/ProductDetail";
+import WishlistView from "@/views/wishlist/Wishlist";
 
 const routes = [
   {
     path: "/",
-    component: Home,
+    component: HomeView,
     layout: "main",
   },
   {
     path: "/products",
-    component: Product,
+    component: ProductView,
     layout: "main",
   },
   {
-    path: "/product:id",
-    component: ProductDetail,
+    path: "/product/:id",
+    component: ProductDetailView,
     layout: "main",
   },
   {
     path: "/cart",
-    component: Cart,
+    component: CartView,
     layout: "main",
   },
   {
     path: "/checkout",
-    component: Checkout,
+    component: CheckoutView,
     layout: "main",
   },
   {
     path: "/order-success",
-    component: OrderSuccess,
+    component: OrderSuccessView,
     layout: "main",
   },
   {
     path: "/profile",
-    component: profile,
+    component: ProfileView,
+    layout: "main",
+  },
+  {
+    path: "/wishlist",
+    component: WishlistView,
     layout: "main",
   },
 ];

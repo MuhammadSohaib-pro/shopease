@@ -1,8 +1,14 @@
 import { Button } from "@/components/ui/button";
+import type { RootState } from "@/store/store";
 import { ArrowRight, CheckCircle, Package } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useSearchParams } from "react-router-dom";
 
-const OrderSuccess = () => {
+const OrderSuccessView = () => {
+  const [searchParams] = useSearchParams();
+  const orderId = searchParams.get("orderId");
+  const { orders } = useSelector((state: RootState) => state.order);
+  const currentOrder = orders.find((item) => item.id === orderId);
   return (
     <div className="bg-muted py-12">
       <div className="container mx-auto px-4">
@@ -20,7 +26,22 @@ const OrderSuccess = () => {
           <div className="bg-card rounded-md py-4 flex flex-col items-center gap-2 w-full max-w-md">
             <div className="flex items-center gap-2">
               <Package className="h-8 w-8 text-accent " />
-              <span className="text-primary font-bold">Order #12345435</span>
+              <span className="text-primary font-bold">Order #{orderId}</span>
+            </div>
+            <div className="flex flex-col p-4 my-2 border-y w-full">
+              <span className=" text-primary font-semibold mb-2">
+                Item's Ordered:
+              </span>
+              {currentOrder?.items.map((item) => (
+                <div className="flex items-center justify-between w-full">
+                  <span className="text-muted-foreground text-sm truncate text-nowrap line-clamp-1 w-52">
+                    {item.title}
+                  </span>
+                  <span className="text-primary text-sm">
+                    ${item.price * item.quantity}
+                  </span>
+                </div>
+              ))}
             </div>
             <p className="text-sm text-muted-foreground">
               Estimated delivery: 3-5 business days
@@ -33,7 +54,7 @@ const OrderSuccess = () => {
                 <ArrowRight />
               </Button>
             </Link>
-            <Link to={""} className="">
+            <Link to={"/profile"} className="">
               <Button
                 variant={"outline"}
                 className="cursor-pointer bg-transparent border border-primary hover:border-accent rounded-md px-4 py-2 text-primary"
@@ -48,4 +69,4 @@ const OrderSuccess = () => {
   );
 };
 
-export default OrderSuccess;
+export default OrderSuccessView;

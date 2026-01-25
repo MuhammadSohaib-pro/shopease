@@ -1,3 +1,5 @@
+  import { useSelector } from "react-redux";
+  import type { RootState } from "@/store/store";
 import { Link } from "react-router-dom";
 
 const CategoriesSection = () => {
@@ -11,6 +13,15 @@ const CategoriesSection = () => {
     "women's clothing":
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop",
   };
+
+  const { categories, categoriesLoader } = useSelector(
+    (state: RootState) => state.product,
+  );
+
+  const formatCategory = (category: string) => {
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  };
+
   return (
     <section className="bg-muted/30 py-16">
       <div className="container mx-auto px-4">
@@ -21,31 +32,34 @@ const CategoriesSection = () => {
             looking for.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-            {/* {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="aspect-square h-75 w-full bg-muted-foreground rounded-md animate-pulse"
-              ></div>
-            ))} */}
-
-            {Object.entries(categoryImages).map((item, index) => (
-              <Link key={index} to={""}>
-                <div className="relative shadow-sm group rounded-md overflow-hidden">
-                  <img
-                    src={item[1]}
-                    alt=""
-                    className="rounded-md group-hover:scale-110 transition-transform duration-500 object-cover w-full h-full"
-                  />
-                  <div className="rounded-md absolute inset-0 bg-primary/50 group-hover:bg-primary/20 transition-all duration-300 ease-in"></div>
-                  <h5 className="absolute left-4 bottom-10 text-primary-foreground text-2xl">
-                    Electronics
-                  </h5>
-                  <p className="absolute left-4 bottom-3 text-primary-foreground group-hover:text-accent">
-                    Show now
-                  </p>
-                </div>
-              </Link>
-            ))}
+            {categoriesLoader
+              ? [...Array(4)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="aspect-square h-75 w-full bg-muted-foreground rounded-md animate-pulse"
+                  ></div>
+                ))
+              : categories.map((category, index) => (
+                  <Link
+                    key={index}
+                    to={`/products?category=${encodeURIComponent(category)}`}
+                  >
+                    <div className="relative shadow-sm group rounded-md overflow-hidden">
+                      <img
+                        src={categoryImages[category]}
+                        alt={category}
+                        className="rounded-md group-hover:scale-110 transition-transform duration-500 object-cover w-full h-full"
+                      />
+                      <div className="rounded-md absolute inset-0 bg-primary/50 group-hover:bg-primary/20 transition-all duration-300 ease-in"></div>
+                      <h5 className="absolute left-4 bottom-10 text-primary-foreground text-2xl">
+                        {formatCategory(category)}
+                      </h5>
+                      <p className="absolute left-4 bottom-3 text-primary-foreground group-hover:text-accent">
+                        Show now
+                      </p>
+                    </div>
+                  </Link>
+                ))}
           </div>
         </div>
       </div>

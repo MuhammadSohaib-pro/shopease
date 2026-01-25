@@ -4,7 +4,7 @@ import FeaturedProducts from "../../components/home/FeaturedProducts";
 import FeaturesSection from "../../components/home/FeaturesSection";
 import HeroSection from "../../components/home/HeroSection";
 
-const Home = () => {
+const HomeView = () => {
   return (
     <div>
       {/* Hero Section */}
@@ -21,4 +21,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeView;
