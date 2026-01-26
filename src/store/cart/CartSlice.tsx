@@ -43,8 +43,6 @@ const cartSlice = createSlice({
       localStorage.setItem(CART_KEY, JSON.stringify(state.items));
     },
     updateQuantity: (state, actions) => {
-      console.log(actions.payload);
-
       if (actions.payload.quantity <= 0) {
         state.items = state.items.filter(
           (item) => item.id !== actions.payload.id,
