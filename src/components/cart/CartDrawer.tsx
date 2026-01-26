@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import { toggleCart } from "@/store/cart/CartSlice";
 import { useMemo } from "react";
+import EmptyState from "../common/EmptyState";
 
 const CartDrawer = () => {
-  const dispacth = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const { items, isOpen } = useSelector((state: RootState) => state.cart);
   const totalAmount: number = useMemo(() => {
     return items.reduce(
@@ -30,34 +31,14 @@ const CartDrawer = () => {
             <Button
               size={"icon"}
               variant={"ghost"}
-              onClick={() => dispacth(toggleCart())}
+              onClick={() => dispatch(toggleCart())}
               className="cursor-pointer p-3 rounded-full hover:bg-accent"
             >
               <X />
             </Button>
           </div>
-          {/* empty cart */}
           {items.length === 0 ? (
-            <div className="h-full w-full flex flex-col items-center justify-center gap-3">
-              <div className="h-16 w-16 p-4 bg-muted rounded-full flex items-center justify-center">
-                <ShoppingBag
-                  size={30}
-                  className="text-lg text-muted-foreground"
-                />
-              </div>
-              <span className="text-base text-primary">Your cart is empty</span>
-              <span className="text-sm text-muted-foreground">
-                Start shopping to add items to your cart
-              </span>
-              <Link to={"/products"}>
-                <Button
-                  onClick={() => dispacth(toggleCart())}
-                  className="cursor-pointer bg-foreground rounded-md px-4 py-2 text-background"
-                >
-                  Browse Product
-                </Button>
-              </Link>
-            </div>
+            <EmptyState type="cart-drawer-empty-section" />
           ) : (
             <>
               <div className="p-3 h-full w-full overflow-y-scroll">
@@ -78,7 +59,7 @@ const CartDrawer = () => {
                   <Link to={"/cart"} className="w-full">
                     <Button
                       variant={"outline"}
-                      onClick={() => dispacth(toggleCart())}
+                      onClick={() => dispatch(toggleCart())}
                       className="cursor-pointer w-full bg-transparent outline-2 outline-muted rounded-md px-4 py-2 text-primary"
                     >
                       View Cart
@@ -86,7 +67,7 @@ const CartDrawer = () => {
                   </Link>
                   <Link to={"/checkout"} className="w-full">
                     <Button
-                      onClick={() => dispacth(toggleCart())}
+                      onClick={() => dispatch(toggleCart())}
                       className="cursor-pointer w-full bg-primary rounded-md px-4 py-2 text-background"
                     >
                       Checkout

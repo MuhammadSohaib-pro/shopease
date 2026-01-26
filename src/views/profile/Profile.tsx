@@ -1,13 +1,12 @@
+import RecentOrders from "@/components/profile/RecentOrders";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbBackIcon,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
 import type { RootState } from "@/store/store";
-import { ChevronRight, Heart, Package, ShoppingBag, User } from "lucide-react";
+import { ChevronRight, Heart, Package, User } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -20,7 +19,7 @@ const ProfileView = () => {
           <BreadcrumbList>
             <BreadcrumbBackIcon />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Back to Home</BreadcrumbLink>
+              <Link to="/">Back to Home</Link>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -58,78 +57,7 @@ const ProfileView = () => {
             </Link>
           </div>
           <div className="col-span-1 lg:col-span-2 bg-card rounded-md p-6 ">
-            <h2 className="text-2xl mb-4">Recent Orders</h2>
-            {orders.length === 0 ? (
-              <div className="my-16 flex flex-col items-center justify-center gap-3">
-                <div className="h-16 w-16 p-4 bg-muted rounded-full flex items-center justify-center">
-                  <ShoppingBag
-                    size={30}
-                    className="text-lg text-muted-foreground"
-                  />
-                </div>
-                <span className="text-sm text-muted-foreground">
-                  No orders yet
-                </span>
-                <Link to={"/products"}>
-                  <Button className="cursor-pointer bg-foreground rounded-md px-4 py-2 text-background">
-                    Start Shopping
-                  </Button>
-                </Link>
-              </div>
-            ) : (
-              orders.map((order) => (
-                <div
-                  key={order.id}
-                  className="flex flex-col items-start bg-muted rounded-md p-4 mb-3"
-                >
-                  <div
-                    key={order.id}
-                    className=" flex items-center gap-2 pb-2 mb-2 w-full border-b border-primary/30"
-                  >
-                    <div className="bg-muted-foreground/30 rounded-md p-3 ">
-                      <Package className="text-muted-foreground h-8 w-8" />
-                    </div>
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex flex-col items-start">
-                        <span className="text-primary font-bold">
-                          Order #{order.id}
-                        </span>
-                        <p className="text-muted-foreground">
-                          {order.items.length} items |{" "}
-                          {new Date(order.date).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex flex-col items-end">
-                        <span className="text-primary font-bold">
-                          ${order.total.toFixed(2)}
-                        </span>
-                        <p className="text-accent">{order.status}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {order.items.map((item) => (
-                    <div
-                      key={item.id}
-                      className=" flex items-center gap-2 mb-2 w-full"
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="h-10 w-10 object-contain aspect-square"
-                      />
-                      <div className="flex flex-col items-start">
-                        <span className="text-sm line-clamp-1">
-                          {item.title}
-                        </span>
-                        <span className="text-muted-foreground text-[10px]">
-                          Qty: ${item.quantity} x ${item.quantity * item.price}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))
-            )}
+            <RecentOrders />
           </div>
         </div>
       </div>

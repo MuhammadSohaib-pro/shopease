@@ -1,6 +1,14 @@
+import type { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const { categories, categoriesLoader } = useSelector(
+    (state: RootState) => state.product,
+  );
+  const formatCategory = (category: string) => {
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  };
   return (
     <div className=" w-full bg-primary">
       <div className="container mx-auto px-4">
@@ -26,7 +34,7 @@ const Footer = () => {
             <ul>
               <li className="py-1">
                 <Link
-                  to={""}
+                  to={"/products"}
                   className="cursor-pointer text-primary-foreground text-base"
                 >
                   All Products
@@ -34,7 +42,7 @@ const Footer = () => {
               </li>
               <li className="py-1">
                 <Link
-                  to={""}
+                  to={"/cart"}
                   className="cursor-pointer text-primary-foreground text-base"
                 >
                   Cart
@@ -42,7 +50,7 @@ const Footer = () => {
               </li>
               <li className="py-1">
                 <Link
-                  to={""}
+                  to={"/profile"}
                   className="cursor-pointer text-primary-foreground text-base"
                 >
                   My Account
@@ -55,38 +63,17 @@ const Footer = () => {
               Categories
             </h4>
             <ul>
-              <li className="py-1">
-                <Link
-                  to={""}
-                  className="cursor-pointer text-primary-foreground text-base"
-                >
-                  Electronics
-                </Link>
-              </li>
-              <li className="py-1">
-                <Link
-                  to={""}
-                  className="cursor-pointer text-primary-foreground text-base"
-                >
-                  Jewelry
-                </Link>
-              </li>
-              <li className="py-1">
-                <Link
-                  to={""}
-                  className="cursor-pointer text-primary-foreground text-base"
-                >
-                  Men's Clothing
-                </Link>
-              </li>
-              <li className="py-1">
-                <Link
-                  to={""}
-                  className="cursor-pointer text-primary-foreground text-base"
-                >
-                  Women's Clothing
-                </Link>
-              </li>
+              {!categoriesLoader &&
+                categories.map((category) => (
+                  <li className="py-1">
+                    <Link
+                      to={`/products?category=${encodeURIComponent(category)}`}
+                      className="cursor-pointer text-primary-foreground text-base"
+                    >
+                      {formatCategory(category)}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="flex flex-col items-start gap-4">
